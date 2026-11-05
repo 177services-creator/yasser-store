@@ -3,81 +3,121 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Yasser store</title>
+<title>Collection - Yasser Store</title>
+<meta name="description" content="Vêtements 100% originaux. Paiement à la livraison partout au Maroc.">
+<meta property="og:title" content="Yasser Store">
+<meta property="og:description" content="Vêtements 100% originaux. Paiement à la livraison partout au Maroc.">
+<meta property="og:image" content="https://177services-creator.github.io/yasser-store/biglogo.jpeg">
+<link rel="icon" href="logo.jpeg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700&family=Barlow:wght@400;600&display=swap">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <style>
+:root{--g:#d4af37;--m:#9a9a9a}
 *{box-sizing:border-box}
-body{margin:0;background:#000;color:#f4f4f4;font-family:Arial,sans-serif}
-header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px}
-header img{width:56px;height:auto}
-h1{font-size:22px;text-align:center;margin:0;font-style:italic}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px;padding:16px;max-width:1100px;margin:auto}
-.card{cursor:pointer;text-align:center;position:relative}
-.card img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:6px;display:block}
-.card ul{list-style:none;padding:0;margin:8px 0;font-size:14px;font-weight:bold}
-.tag{position:absolute;top:8px;left:8px;background:#b3261e;color:#fff;font-size:12px;font-weight:bold;padding:4px 8px;border-radius:4px}
-.back{display:block;width:fit-content;margin:30px auto;padding:12px 28px;color:#d4af37;background:#0b1020;font-weight:bold;text-decoration:none;border-radius:8px}
-.msg{text-align:center;padding:40px;color:#aaa}
-#modal{position:fixed;inset:0;background:rgba(0,0,0,.94);overflow-y:auto;display:none;z-index:50}
+body{margin:0;background:#000;color:#f2f2f2;font-family:Barlow,Arial,sans-serif}
+h1,.pr,.go,.nav a{font-family:'Barlow Condensed',Arial,sans-serif}
+header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;max-width:1100px;margin:auto}
+header img{width:48px;height:48px;border-radius:50%}
+.burger{background:none;border:1px solid #333;color:#fff;border-radius:8px;width:44px;height:44px;font-size:22px;cursor:pointer}
+.nav{position:fixed;inset:0;background:#000;display:none;flex-direction:column;align-items:center;justify-content:center;gap:26px;z-index:80}
+body.menu .nav{display:flex}
+.nav a{color:#fff;text-decoration:none;font-size:32px;font-weight:700}
+.nav a:hover{color:var(--g)}
+.nav .cl{position:absolute;top:18px;right:18px;background:none;border:0;color:#fff;font-size:30px;cursor:pointer}
+h1{font-size:44px;text-align:center;margin:18px 0 6px;letter-spacing:1px}
+.sub{text-align:center;color:var(--m);margin:0 16px}
+.trust{display:flex;justify-content:center;gap:10px 26px;flex-wrap:wrap;margin:22px 16px;font-size:14px;color:#ddd}
+.trust span{border-bottom:1px solid var(--g);padding-bottom:3px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:22px;padding:10px 18px 30px;max-width:1100px;margin:auto}
+.card{cursor:pointer;position:relative}
+.card .im{overflow:hidden;border-radius:4px}
+.card img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block;transition:transform .35s}
+.card:hover img{transform:scale(1.04)}
+.card p{margin:10px 0 2px;font-size:13px;color:var(--m);line-height:1.4}
+.pr{font-size:26px;font-weight:700;color:var(--g);letter-spacing:.5px}
+.tag{position:absolute;top:10px;left:10px;background:#b3261e;color:#fff;font-size:12px;font-weight:600;padding:4px 9px;border-radius:3px}
+.msg{text-align:center;padding:40px;color:#aaa;grid-column:1/-1}
+footer{border-top:1px solid #222;text-align:center;padding:28px 16px 90px;color:var(--m);font-size:14px}
+footer a{color:#fff;margin:0 10px;text-decoration:none}
+footer a:hover{color:var(--g)}
+.wa{position:fixed;right:16px;bottom:16px;z-index:40;background:#25d366;color:#fff;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px #0008}
+.wa svg{width:30px;height:30px;fill:#fff}
+#modal{position:fixed;inset:0;background:#000f;overflow-y:auto;display:none;z-index:60}
 #modal.on{display:block}
 .box{max-width:480px;margin:auto;padding:16px 16px 40px}
-.x{position:fixed;top:10px;right:14px;background:none;border:0;color:#fff;font-size:30px;cursor:pointer;z-index:60}
+.x{position:fixed;top:10px;right:14px;background:none;border:0;color:#fff;font-size:30px;cursor:pointer;z-index:70}
 .sl-wrap{position:relative}
-.sl{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;gap:0}
+.sl{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
 .sl::-webkit-scrollbar{display:none}
-.sl img{flex:0 0 100%;scroll-snap-align:center;max-height:58vh;object-fit:contain;background:#000}
-.ar{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.6);color:#fff;border:1px solid #555;border-radius:50%;width:38px;height:38px;font-size:20px;cursor:pointer}
+.sl img{flex:0 0 100%;scroll-snap-align:center;max-height:58vh;object-fit:contain}
+.ar{position:absolute;top:50%;transform:translateY(-50%);background:#000a;color:#fff;border:1px solid #555;border-radius:50%;width:38px;height:38px;font-size:20px;cursor:pointer}
 .ar.l{left:4px}.ar.r{right:4px}
 .row{display:flex;gap:8px;align-items:center;margin:10px 0;flex-wrap:wrap}
-.row b{flex:1 1 100%}
-select,input,textarea{background:#111;color:#fff;border:1px solid #444;border-radius:6px;padding:11px;font-size:16px;width:100%}
+.row b{flex:1 1 100%;font-weight:600}
+select,input,textarea{background:#111;color:#fff;border:1px solid #444;border-radius:6px;padding:11px;font-size:16px;width:100%;font-family:inherit}
 .row select{flex:1}
 label{display:block;margin-top:12px;font-size:14px;color:#ccc}
-.total{font-size:20px;font-weight:bold;color:#d4af37;margin:16px 0 4px}
-button.go{width:100%;margin-top:16px;padding:15px;background:#d4af37;color:#0b1020;font-weight:bold;font-size:17px;border:0;border-radius:8px;cursor:pointer}
+.total{font-size:30px;margin:16px 0 2px}
+.note{color:var(--m);font-size:13px;margin:0 0 6px}
+button.go{width:100%;margin-top:16px;padding:14px;background:var(--g);color:#111;font-weight:700;font-size:22px;border:0;border-radius:6px;cursor:pointer;letter-spacing:.5px}
 button.go:disabled{opacity:.5}
 .ok{text-align:center;padding:50px 10px;font-size:18px}
 .err{color:#ff8a80;margin-top:10px;font-size:14px}
-button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid #d4af37}
+:focus-visible{outline:2px solid var(--g)}
+@media(max-width:600px){h1{font-size:34px}.grid{gap:14px;grid-template-columns:1fr 1fr;padding:10px 12px 24px}.pr{font-size:22px}}
 </style>
 </head>
 <body>
-<header><img src="logo.jpeg" alt=""><h1>Welcome to your store</h1><img src="logo.jpeg" alt=""></header>
+<header><img src="logo.jpeg" alt="Yasser Store"><button class="burger" onclick="tg()" aria-label="Menu">☰</button></header>
+<nav class="nav"><button class="cl" onclick="tg()" aria-label="Fermer">✕</button>
+<a href="index.html">Accueil</a><a href="store.html" onclick="tg()">Collection</a>
+<a href="https://wa.me/212607572082" target="_blank">WhatsApp</a>
+<a href="https://www.instagram.com/y4srv.v/" target="_blank">Instagram</a>
+<a href="https://www.tiktok.com/@y4srv.v" target="_blank">TikTok</a></nav>
+<h1>Collection</h1>
+<p class="sub">Outfits complets, choisissez votre taille et votre couleur.</p>
+<div class="trust"><span>Paiement à la livraison</span><span>Livraison partout au Maroc</span><span>100% original</span></div>
 <div id="list" class="grid"><p class="msg">Chargement...</p></div>
-<a href="index.html" class="back">Back to accueil</a>
+<footer>
+<a href="https://www.instagram.com/y4srv.v/" target="_blank">Instagram</a><a href="https://www.tiktok.com/@y4srv.v" target="_blank">TikTok</a><a href="tel:+212607572082">Appeler</a><a href="mailto:yasserkharbouchkh@gmail.com">Email</a>
+<p>&copy; 2026 Yasser Store</p></footer>
+<a class="wa" href="https://wa.me/212607572082" target="_blank" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.7 14.9L2 22l5.3-1.4A10 10 0 1 0 12 2zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-3.1.8.8-3-.2-.4A8 8 0 1 1 12 20zm4.4-5.9c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1-.2.2-.6.8-.8 1-.1.1-.3.2-.5.1a6.5 6.5 0 0 1-1.9-1.2 7 7 0 0 1-1.3-1.6c-.1-.2 0-.3.1-.5l.4-.4c.1-.1.2-.3.3-.4.1-.2 0-.3 0-.5s-.5-1.3-.7-1.8c-.2-.4-.4-.4-.5-.4h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 2s.8 2.3.9 2.5a9 9 0 0 0 3.4 3.2c.5.2.9.4 1.2.5.5.1 1 .1 1.3.1.4-.1 1.4-.6 1.6-1.1.2-.6.2-1 .2-1.1-.1-.1-.3-.2-.5-.3z"/></svg></a>
 <div id="modal"><button class="x" onclick="closeM()" aria-label="Fermer">✕</button><div class="box" id="mbox"></div></div>
 <script>
 const sb=supabase.createClient('https://cmnqbvgzmyiqibozaoea.supabase.co','sb_publishable_ui8rtLgQWnMzM_byFlw3KQ_uyamkvAO');
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const tot=o=>(o.items||[]).reduce((a,t)=>a+(+t.price||0),0);
+const tg=()=>document.body.classList.toggle('menu');
 let outfits=[],cur=null;
 
 async function load(){
   const {data,error}=await sb.from('outfits').select('*').order('position').order('id');
   if(error){$('#list').innerHTML='<p class="msg">Erreur de chargement. Réessayez.</p>';return}
   outfits=data;
-  if(!data.length){$('#list').innerHTML='<p class="msg">Bientôt de nouveaux articles.</p>';return}
+  if(!data.length){$('#list').innerHTML='<p class="msg">Nouveaux articles bientôt.</p>';return}
   $('#list').innerHTML=data.map((o,i)=>`<div class="card" onclick="openM(${i})">
     ${o.in_stock?'':'<span class="tag">Rupture</span>'}
-    <img src="${esc((o.images||[])[0])}" alt="${esc(o.title)}" loading="lazy">
-    <ul>${(o.items||[]).map(t=>`<li>${esc(t.name)}: ${esc(t.price)}dh</li>`).join('')}</ul></div>`).join('');
+    <div class="im"><img src="${esc((o.images||[])[0])}" alt="${esc(o.title)}" loading="lazy"></div>
+    <p>${(o.items||[]).map(t=>esc(t.name)).join(', ')}</p><div class="pr">${tot(o)} dh</div></div>`).join('');
 }
 
 function openM(i){
   cur=outfits[i];
   const imgs=cur.images||[];
-  const many=imgs.length>1;
   $('#mbox').innerHTML=`
   <div class="sl-wrap"><div class="sl" id="sl">${imgs.map(u=>`<img src="${esc(u)}" alt="${esc(cur.title)}">`).join('')}</div>
-  ${many?'<button class="ar l" onclick="sl(-1)" aria-label="Précédent">‹</button><button class="ar r" onclick="sl(1)" aria-label="Suivant">›</button>':''}</div>
+  ${imgs.length>1?'<button class="ar l" onclick="sl(-1)" aria-label="Précédent">‹</button><button class="ar r" onclick="sl(1)" aria-label="Suivant">›</button>':''}</div>
   <form id="of" onsubmit="send(event)">
-  ${(cur.items||[]).map((t,k)=>`<div class="row"><b>${esc(t.name)} — ${esc(t.price)}dh</b>
+  ${(cur.items||[]).map((t,k)=>`<div class="row"><b>${esc(t.name)} : ${esc(t.price)} dh</b>
     ${(t.sizes||[]).length?`<select name="s${k}" required><option value="">Taille</option>${t.sizes.map(s=>`<option>${esc(s)}</option>`).join('')}</select>`:''}
     ${(t.colors||[]).length?`<select name="c${k}" required><option value="">Couleur</option>${t.colors.map(s=>`<option>${esc(s)}</option>`).join('')}</select>`:''}</div>`).join('')}
-  <div class="total">Total: ${(cur.items||[]).reduce((a,t)=>a+(+t.price||0),0)}dh</div>
+  <div class="pr total">Total : ${tot(cur)} dh</div>
+  <p class="note">Paiement à la livraison. Livraison partout au Maroc.</p>
   ${cur.in_stock?`
-  <label>Nom complet<input name="n" required></label>
-  <label>Téléphone<input name="p" type="tel" required></label>
+  <label>Nom complet<input name="n" autocomplete="name" required></label>
+  <label>Téléphone<input name="p" type="tel" autocomplete="tel" required></label>
   <label>Ville<input name="v" required></label>
   <label>Adresse<textarea name="a" rows="2" required></textarea></label>
   <label>Remarque (facultatif)<input name="r"></label>
@@ -98,10 +138,10 @@ async function send(e){
     total:sel.reduce((a,t)=>a+t.price,0),
     customer_name:f.n.value.trim(),phone:f.p.value.trim(),city:f.v.value.trim(),
     address:f.a.value.trim(),notes:f.r.value.trim()||null});
-  if(error){b.disabled=false;$('#er').textContent='Erreur, réessayez ou contactez-nous.';return}
-  $('#mbox').innerHTML='<div class="ok">✅ Commande envoyée !<br><br>Nous vous contactons très bientôt pour confirmer la livraison.</div><button class="go" onclick="closeM()">Fermer</button>';
+  if(error){b.disabled=false;$('#er').textContent='Erreur, réessayez ou contactez-nous sur WhatsApp.';return}
+  $('#mbox').innerHTML='<div class="ok">✅ Commande envoyée !<br><br>Nous vous appelons très bientôt pour confirmer la livraison.</div><button class="go" onclick="closeM()">Fermer</button>';
 }
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeM();document.body.classList.remove('menu')}});
 load();
 </script>
 </body>
