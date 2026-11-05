@@ -79,9 +79,9 @@ async function showOutfits(){
 }
 function edit(id){
   ed=id?{...outfits.find(o=>o.id==id)}:{title:'',images:[],items:[{name:'',price:'',sizes:[],colors:[]}],in_stock:true,position:0};
-  form();
+  renderForm();
 }
-function form(){
+function renderForm(){
   $('#main').innerHTML=`<h2>${ed.id?'Modifier':'Nouvel'} outfit</h2><form onsubmit="save(event)">
   <label>Titre<input id="t" value="${esc(ed.title)}" required></label>
   <label>Photos (la 1ère s'affiche dans la liste)<input id="f" type="file" accept="image/*" multiple></label>
@@ -91,14 +91,16 @@ function form(){
   <input placeholder="Prix" type="number" value="${esc(t.price)}" oninput="ed.items[${i}].price=this.value" required>
   <input placeholder="Tailles: S,M,L" value="${esc((t.sizes||[]).join(','))}" oninput="ed.items[${i}].sizes=lst(this.value)">
   <input placeholder="Couleurs: Noir,Blanc" value="${esc((t.colors||[]).join(','))}" oninput="ed.items[${i}].colors=lst(this.value)"></div>
-  <button type="button" class="d" onclick="ed.items.splice(${i},1);form()">Retirer</button></div>`).join('')}
-  <button type="button" class="s" onclick="ed.items.push({name:'',price:'',sizes:[],colors:[]});form()">+ Ajouter un article</button>
+  <button type="button" class="d" onclick="rmItem(${i})">Retirer</button></div>`).join('')}
+  <button type="button" class="s" onclick="addItem()">+ Ajouter un article</button>
   <label>Position (0 = en premier)<input id="pos" type="number" value="${ed.position||0}"></label>
   <label><input id="st" type="checkbox" style="width:auto" ${ed.in_stock?'checked':''}> En stock</label>
   <div class="b"><button id="sv">Enregistrer</button><button type="button" class="s" onclick="go('outfits')">Annuler</button></div><div class="err" id="er"></div></form>`;
 }
 const lst=v=>v.split(',').map(s=>s.trim()).filter(Boolean);
-function rmImg(i){syncTop();ed.images.splice(i,1);form()}
+function addItem(){syncTop();ed.items.push({name:'',price:'',sizes:[],colors:[]});renderForm()}
+function rmItem(i){syncTop();ed.items.splice(i,1);renderForm()}
+function rmImg(i){syncTop();ed.images.splice(i,1);renderForm()}
 function syncTop(){ed.title=$('#t').value;ed.position=+$('#pos').value||0;ed.in_stock=$('#st').checked}
 async function save(e){
   e.preventDefault();syncTop();const b=$('#sv');b.disabled=true;b.textContent='Envoi...';
