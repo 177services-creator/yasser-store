@@ -3,65 +3,150 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Yasser Store - Vêtements 100% originaux</title>
-<meta name="description" content="Vêtements 100% originaux. Paiement à la livraison partout au Maroc.">
-<meta property="og:title" content="Yasser Store">
-<meta property="og:description" content="Vêtements 100% originaux. Paiement à la livraison partout au Maroc.">
-<meta property="og:image" content="https://177services-creator.github.io/yasser-store/biglogo.jpeg">
-<meta name="format-detection" content="telephone=no">
-<link rel="icon" href="logo.jpeg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700&family=Barlow:wght@400;600&display=swap">
+<meta name="robots" content="noindex">
+<title>Admin - Yasser store</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <style>
-:root{--g:#d4af37;--m:#9a9a9a}
 *{box-sizing:border-box}
-body{margin:0;background:#000;color:#f2f2f2;font-family:Barlow,Arial,sans-serif;text-align:center}
-.nav a,.btn,h1{font-family:'Barlow Condensed',Arial,sans-serif}
-header{display:flex;justify-content:flex-end;padding:14px 18px;max-width:1100px;margin:auto}
-.burger{background:none;border:1px solid #333;color:#fff;border-radius:8px;width:44px;height:44px;font-size:22px;cursor:pointer}
-.nav{position:fixed;inset:0;background:#000;display:none;flex-direction:column;align-items:center;justify-content:center;gap:26px;z-index:80}
-body.menu .nav{display:flex}
-.nav a{color:#fff;text-decoration:none;font-size:32px;font-weight:700}
-.nav a:hover{color:var(--g)}
-.nav .cl{position:absolute;top:18px;right:18px;background:none;border:0;color:#fff;font-size:30px;cursor:pointer}
-.logo{display:block;width:min(360px,80%);height:auto;margin:10px auto 26px}
-h1{font-size:40px;margin:0 16px 8px;letter-spacing:1px}
-.sub{color:var(--m);font-size:18px;margin:0 16px}
-.btn { display: inline-block; margin-top: 30px;padding: 18px 60px; font-size: 1.2rem; color: #0b1020;background-color: #d4af37;font-weight: bold;text-decoration: none;border-radius: 8px; }
-.btn:hover {color: #d4af37; background-color: #0b1020; }
-.trust{display:flex;justify-content:center;gap:10px 26px;flex-wrap:wrap;margin:40px 16px 10px;font-size:15px;color:#ddd}
-.trust span{border-bottom:1px solid var(--g);padding-bottom:3px}
-.contact{margin:50px auto 0;padding:30px 16px 40px;border-top:1px solid #222;max-width:700px}
-.contact a{display:inline-block;margin:6px;padding:11px 22px;border:1px solid #333;border-radius:999px;color:#fff;text-decoration:none;font-size:15px;transition:border-color .2s,color .2s}
-.contact a:hover{border-color:var(--g);color:var(--g)}
-.contact p{color:var(--m);font-size:14px;margin:18px 0 0}
-:focus-visible{outline:2px solid var(--g)}
-@media(max-width:600px){h1{font-size:32px}}
+body{margin:0;background:#0a0a0a;color:#f1f1f1;font-family:Arial,sans-serif;padding:16px;max-width:760px;margin:auto}
+h2{margin:8px 0 14px;color:#d4af37}
+input,textarea,select{background:#151515;color:#fff;border:1px solid #444;border-radius:6px;padding:10px;font-size:16px;width:100%}
+label{display:block;margin-top:10px;font-size:14px;color:#bbb}
+button{cursor:pointer;border:0;border-radius:6px;padding:10px 14px;font-weight:bold;font-size:14px;background:#d4af37;color:#111}
+button.s{background:#2a2a2a;color:#fff}button.d{background:#8b1e1e;color:#fff}
+.top{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
+.top .sp{flex:1}
+.tab.on{outline:2px solid #fff}
+.box{background:#141414;border:1px solid #2c2c2c;border-radius:8px;padding:12px;margin-bottom:12px}
+.it{display:grid;grid-template-columns:1fr 90px;gap:6px;margin-bottom:4px}
+.it input:nth-child(n+3){grid-column:span 2}
+.imgs{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.imgs div{position:relative}
+.imgs img{width:78px;height:78px;object-fit:cover;border-radius:6px}
+.imgs button{position:absolute;top:-6px;right:-6px;padding:2px 7px;border-radius:50%;background:#8b1e1e;color:#fff}
+.o{display:flex;gap:10px;align-items:center}
+.o img{width:64px;height:64px;object-fit:cover;border-radius:6px}
+.o .m{flex:1;font-size:14px}
+.b{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.out{color:#ff8a80}.err{color:#ff8a80;margin-top:8px}
+small{color:#999}
+a{color:#d4af37}
 </style>
 </head>
 <body>
-<header><button class="burger" onclick="tg()" aria-label="Menu">☰</button></header>
-<nav class="nav"><button class="cl" onclick="tg()" aria-label="Fermer">✕</button>
-<a href="index.html" onclick="tg()">Accueil</a><a href="store.html">Collection</a>
-<a href="https://wa.me/212607572082" target="_blank">WhatsApp</a>
-<a href="https://www.instagram.com/y4srv.v/" target="_blank">Instagram</a>
-<a href="https://www.tiktok.com/@y4srv.v" target="_blank">TikTok</a></nav>
-<img src="biglogo.jpeg" alt="Yasser Store" class="logo">
-<h1>Les meilleurs vêtements vous attendent</h1>
-<p class="sub">100% original</p>
-<a href="store.html" class="btn">Our store</a>
-<div class="trust"><span>Paiement à la livraison</span><span>Livraison partout au Maroc</span><span>Commande en 1 minute</span></div>
-<div class="contact">
-<a href="https://wa.me/212607572082" target="_blank">WhatsApp</a>
-<a href="tel:+212607572082">Appeler</a>
-<a href="https://www.instagram.com/y4srv.v/" target="_blank">Instagram</a>
-<a href="https://www.tiktok.com/@y4srv.v" target="_blank">TikTok</a>
-<p>yasserkharbouchkh@gmail.com</p>
-<p>&copy; 2026 Yasser Store</p>
-</div>
+<div id="app"></div>
 <script>
-const tg=()=>document.body.classList.toggle('menu');
-document.addEventListener('keydown',e=>{if(e.key==='Escape')document.body.classList.remove('menu')});
+const sb=supabase.createClient('https://cmnqbvgzmyiqibozaoea.supabase.co','sb_publishable_ui8rtLgQWnMzM_byFlw3KQ_uyamkvAO');
+const $=s=>document.querySelector(s),app=$('#app');
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let outfits=[],ed=null,tab='outfits';
+
+sb.auth.onAuthStateChange((_,s)=>{s?home():login()});
+sb.auth.getSession().then(({data})=>{if(!data.session)login()});
+
+function login(msg=''){
+  app.innerHTML=`<h2>Connexion admin</h2><form onsubmit="doLogin(event)">
+  <label>Email<input name="e" type="email" required></label>
+  <label>Mot de passe<input name="p" type="password" required></label>
+  <p style="margin-top:14px"><button>Se connecter</button></p><div class="err">${msg}</div></form>`;
+}
+async function doLogin(e){
+  e.preventDefault();const f=e.target;
+  const {error}=await sb.auth.signInWithPassword({email:f.e.value,password:f.p.value});
+  if(error)login('Email ou mot de passe incorrect.');
+}
+function home(){
+  app.innerHTML=`<div class="top"><button class="tab s ${tab=='outfits'?'on':''}" onclick="go('outfits')">Outfits</button>
+  <button class="tab s ${tab=='orders'?'on':''}" onclick="go('orders')">Commandes</button><span class="sp"></span>
+  <a href="store.html" target="_blank">Voir le store</a><button class="s" onclick="sb.auth.signOut()">Déconnexion</button></div><div id="main"></div>`;
+  tab=='orders'?showOrders():showOutfits();
+}
+function go(t){tab=t;ed=null;home()}
+
+/* ---------- OUTFITS ---------- */
+async function showOutfits(){
+  const {data,error}=await sb.from('outfits').select('*').order('position').order('id');
+  if(error){$('#main').innerHTML='<p class="err">Erreur: '+esc(error.message)+'</p>';return}
+  outfits=data;
+  $('#main').innerHTML=`<p><button onclick="edit()">+ Ajouter un outfit</button>
+  ${data.length?'':' <button class="s" onclick="seed()">Importer mes 12 outfits actuels</button>'}</p>
+  ${data.map(o=>`<div class="box o"><img src="${esc((o.images||[])[0])}" alt="">
+  <div class="m"><b>${esc(o.title)}</b><br><small>${(o.items||[]).map(t=>esc(t.name)+' '+esc(t.price)).join(' · ')}</small>
+  <br>${o.in_stock?'En stock':'<span class="out">Rupture</span>'}
+  <div class="b"><button class="s" onclick="edit(${o.id})">Modifier</button>
+  <button class="s" onclick="stock(${o.id},${!o.in_stock})">${o.in_stock?'Mettre en rupture':'Remettre en stock'}</button>
+  <button class="d" onclick="del(${o.id})">Supprimer</button></div></div></div>`).join('')}`;
+}
+function edit(id){
+  ed=id?{...outfits.find(o=>o.id==id)}:{title:'',images:[],items:[{name:'',price:'',sizes:[],colors:[]}],in_stock:true,position:0};
+  renderForm();
+}
+function renderForm(){
+  $('#main').innerHTML=`<h2>${ed.id?'Modifier':'Nouvel'} outfit</h2><form onsubmit="save(event)">
+  <label>Titre<input id="t" value="${esc(ed.title)}" required></label>
+  <label>Photos (la 1ère s'affiche dans la liste)<input id="f" type="file" accept="image/*" multiple></label>
+  <div class="imgs">${ed.images.map((u,i)=>`<div><img src="${esc(u)}" alt=""><button type="button" onclick="rmImg(${i})">✕</button></div>`).join('')}</div>
+  <b>Articles</b><br><small>Tailles et couleurs: séparées par une virgule (ex: S,M,L / Noir,Blanc). Laisser vide si pas de choix.</small>
+  ${ed.items.map((t,i)=>`<div class="box"><div class="it"><input placeholder="Nom (ex: Jeans)" value="${esc(t.name)}" oninput="ed.items[${i}].name=this.value" required>
+  <input placeholder="Prix" type="number" value="${esc(t.price)}" oninput="ed.items[${i}].price=this.value" required>
+  <input placeholder="Tailles: S,M,L" value="${esc((t.sizes||[]).join(','))}" oninput="ed.items[${i}].sizes=lst(this.value)">
+  <input placeholder="Couleurs: Noir,Blanc" value="${esc((t.colors||[]).join(','))}" oninput="ed.items[${i}].colors=lst(this.value)"></div>
+  <button type="button" class="d" onclick="rmItem(${i})">Retirer</button></div>`).join('')}
+  <button type="button" class="s" onclick="addItem()">+ Ajouter un article</button>
+  <label>Position (0 = en premier)<input id="pos" type="number" value="${ed.position||0}"></label>
+  <label><input id="st" type="checkbox" style="width:auto" ${ed.in_stock?'checked':''}> En stock</label>
+  <div class="b"><button id="sv">Enregistrer</button><button type="button" class="s" onclick="go('outfits')">Annuler</button></div><div class="err" id="er"></div></form>`;
+}
+const lst=v=>v.split(',').map(s=>s.trim()).filter(Boolean);
+function addItem(){syncTop();ed.items.push({name:'',price:'',sizes:[],colors:[]});renderForm()}
+function rmItem(i){syncTop();ed.items.splice(i,1);renderForm()}
+function rmImg(i){syncTop();ed.images.splice(i,1);renderForm()}
+function syncTop(){ed.title=$('#t').value;ed.position=+$('#pos').value||0;ed.in_stock=$('#st').checked}
+async function save(e){
+  e.preventDefault();syncTop();const b=$('#sv');b.disabled=true;b.textContent='Envoi...';
+  try{
+    for(const [i,file] of [...$('#f').files].entries()){
+      const ext=(file.name.split('.').pop()||'jpg').toLowerCase().replace(/[^a-z0-9]/g,'');
+      const path=`${Date.now()}_${i}.${ext}`;
+      const {error}=await sb.storage.from('outfits').upload(path,file);
+      if(error)throw error;
+      ed.images.push(sb.storage.from('outfits').getPublicUrl(path).data.publicUrl);
+    }
+    if(!ed.images.length)throw new Error('Ajoutez au moins une photo.');
+    const row={title:ed.title,images:ed.images,items:ed.items.map(t=>({...t,price:+t.price})),in_stock:ed.in_stock,position:ed.position};
+    const r=ed.id?await sb.from('outfits').update(row).eq('id',ed.id):await sb.from('outfits').insert(row);
+    if(r.error)throw r.error;
+    go('outfits');
+  }catch(x){b.disabled=false;b.textContent='Enregistrer';$('#er').textContent=x.message}
+}
+async function stock(id,v){await sb.from('outfits').update({in_stock:v}).eq('id',id);showOutfits()}
+async function del(id){if(confirm('Supprimer cet outfit ?')){await sb.from('outfits').delete().eq('id',id);showOutfits()}}
+
+async function seed(){
+  const D=[[['Jeans-gris',249],['Zip-black',249],['Cap',149],['Shoes',329]],[['Jeans-black',249],['Zip-white',249],['Cap',119],['Shoes',479]],
+  [['Jacket',359],['Jeans baggy',259],['Shoes',449]],[['Jacket',550],['Jeans',279],['Shoes',650]],[['Hoodie',249],['Pants',279],['Air-force',329]],
+  [['Jacket-swip',329],['Pants',189],['Shoes',479],['Cap',119]],[['Ensemble',699],['Uggs',179]],
+  [['Jacket',479],['Jeans-baggy',219],['Shoes',479],['Cap-basket',140]],[['Ensemble',499],['Air-force',329]],[['Pack 3 Jeans',499]],
+  [['Jacket',449],['Jeans',220],['Air-force',320]],[['Hoodie',249],['Jeans super baggy',279],['Air-force',320]]];
+  const rows=D.map((it,i)=>({title:'Outfit '+(i+1),images:[`outfit${i+1}.jpeg`],position:i,in_stock:true,
+    items:it.map(([name,price])=>({name,price,sizes:[],colors:[]}))}));
+  const {error}=await sb.from('outfits').insert(rows);
+  if(error)alert(error.message);showOutfits();
+}
+
+/* ---------- COMMANDES ---------- */
+const ST={new:'Nouvelle',confirmed:'Confirmée',delivered:'Livrée',cancelled:'Annulée'};
+async function showOrders(){
+  const {data,error}=await sb.from('orders').select('*').order('id',{ascending:false});
+  if(error){$('#main').innerHTML='<p class="err">Erreur: '+esc(error.message)+'</p>';return}
+  $('#main').innerHTML=data.length?data.map(o=>`<div class="box"><b>${esc(o.customer_name)}</b> — <a href="tel:${esc(o.phone)}">${esc(o.phone)}</a><br>
+  <small>${new Date(o.created_at).toLocaleString('fr-FR')}</small><br>${esc(o.city)} · ${esc(o.address)}${o.notes?'<br><i>'+esc(o.notes)+'</i>':''}
+  <p><b>${esc(o.outfit_title)}</b> — ${esc(o.total)}dh<br>${(o.selections||[]).map(s=>`${esc(s.name)} ${esc(s.size||'')} ${esc(s.color||'')}`).join('<br>')}</p>
+  <div class="b"><select style="width:auto" onchange="setSt(${o.id},this.value)">${Object.entries(ST).map(([k,v])=>`<option value="${k}" ${o.status==k?'selected':''}>${v}</option>`).join('')}</select>
+  <button class="d" onclick="delO(${o.id})">Supprimer</button></div></div>`).join(''):'<p>Aucune commande pour le moment.</p>';
+}
+async function setSt(id,v){await sb.from('orders').update({status:v}).eq('id',id)}
+async function delO(id){if(confirm('Supprimer cette commande ?')){await sb.from('orders').delete().eq('id',id);showOrders()}}
 </script>
 </body>
 </html>
