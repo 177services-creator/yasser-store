@@ -71,7 +71,7 @@ async function showOutfits(){
   $('#main').innerHTML=`<p><button onclick="edit()">+ Ajouter un outfit</button>
   ${data.length?'':' <button class="s" onclick="seed()">Importer mes 12 outfits actuels</button>'}</p>
   ${data.map(o=>`<div class="box o"><img src="${esc((o.images||[])[0])}" alt="">
-  <div class="m"><b>${esc(o.title)}</b><br><small>${(o.items||[]).map(t=>esc(t.name)+' '+esc(t.price)).join(' · ')}</small>
+  <div class="m"><b>${esc(o.title)}</b>${o.category?' <small>('+esc(o.category)+')</small>':''}<br><small>${(o.items||[]).map(t=>esc(t.name)+' '+esc(t.price)).join(' · ')}</small>
   <br>${o.in_stock?'En stock':'<span class="out">Rupture</span>'}
   <div class="b"><button class="s" onclick="edit(${o.id})">Modifier</button>
   <button class="s" onclick="stock(${o.id},${!o.in_stock})">${o.in_stock?'Mettre en rupture':'Remettre en stock'}</button>
@@ -84,6 +84,7 @@ function edit(id){
 function renderForm(){
   $('#main').innerHTML=`<h2>${ed.id?'Modifier':'Nouvel'} outfit</h2><form onsubmit="save(event)">
   <label>Titre<input id="t" value="${esc(ed.title)}" required></label>
+  <label>Catégorie (ex: Hoodies, Jeans, Packs)<input id="cat" list="cl" value="${esc(ed.category||'')}"><datalist id="cl">${[...new Set(outfits.map(o=>o.category).filter(Boolean))].map(c=>`<option value="${esc(c)}">`).join('')}</datalist></label>
   <label>Photos (la 1ère s'affiche dans la liste)<input id="f" type="file" accept="image/*" multiple></label>
   <div class="imgs">${ed.images.map((u,i)=>`<div><img src="${esc(u)}" alt=""><button type="button" onclick="rmImg(${i})">✕</button></div>`).join('')}</div>
   <b>Articles</b><br><small>Tailles et couleurs: séparées par une virgule (ex: S,M,L / Noir,Blanc). Laisser vide si pas de choix.</small>
@@ -101,7 +102,7 @@ const lst=v=>v.split(',').map(s=>s.trim()).filter(Boolean);
 function addItem(){syncTop();ed.items.push({name:'',price:'',sizes:[],colors:[]});renderForm()}
 function rmItem(i){syncTop();ed.items.splice(i,1);renderForm()}
 function rmImg(i){syncTop();ed.images.splice(i,1);renderForm()}
-function syncTop(){ed.title=$('#t').value;ed.position=+$('#pos').value||0;ed.in_stock=$('#st').checked}
+function syncTop(){ed.title=$('#t').value;ed.category=$('#cat').value.trim()||null;ed.position=+$('#pos').value||0;ed.in_stock=$('#st').checked}
 async function save(e){
   e.preventDefault();syncTop();const b=$('#sv');b.disabled=true;b.textContent='Envoi...';
   try{
@@ -113,7 +114,7 @@ async function save(e){
       ed.images.push(sb.storage.from('outfits').getPublicUrl(path).data.publicUrl);
     }
     if(!ed.images.length)throw new Error('Ajoutez au moins une photo.');
-    const row={title:ed.title,images:ed.images,items:ed.items.map(t=>({...t,price:+t.price})),in_stock:ed.in_stock,position:ed.position};
+    const row={title:ed.title,images:ed.images,items:ed.items.map(t=>({...t,price:+t.price})),in_stock:ed.in_stock,position:ed.position,category:ed.category||null};
     const r=ed.id?await sb.from('outfits').update(row).eq('id',ed.id):await sb.from('outfits').insert(row);
     if(r.error)throw r.error;
     go('outfits');
