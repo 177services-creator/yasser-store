@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Collection - Yasser Store</title>
+<title>Our Store - Yasser Store</title>
 <meta name="description" content="Vêtements 100% originaux. Paiement à la livraison partout au Maroc.">
 <meta property="og:title" content="Yasser Store">
 <meta property="og:description" content="Vêtements 100% originaux. Paiement à la livraison partout au Maroc.">
@@ -37,6 +37,9 @@ h1{font-size:44px;text-align:center;margin:18px 0 6px;letter-spacing:1px}
 .card p{margin:10px 0 2px;font-size:13px;color:var(--m);line-height:1.4}
 .pr{font-size:26px;font-weight:700;color:var(--g);letter-spacing:.5px}
 .tag{position:absolute;top:10px;left:10px;background:#b3261e;color:#fff;font-size:12px;font-weight:600;padding:4px 9px;border-radius:3px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:0 16px 18px}
+.chip{background:none;border:1px solid #333;color:#ddd;border-radius:999px;padding:8px 18px;font-size:15px;cursor:pointer;font-family:inherit}
+.chip.on{background:var(--g);color:#111;border-color:var(--g)}
 .msg{text-align:center;padding:40px;color:#aaa;grid-column:1/-1}
 footer{border-top:1px solid #222;text-align:center;padding:28px 16px 90px;color:var(--m);font-size:14px}
 footer a{color:#fff;margin:0 10px;text-decoration:none}
@@ -71,13 +74,14 @@ button.go:disabled{opacity:.5}
 <body>
 <header><img src="logo.jpeg" alt="Yasser Store"><button class="burger" onclick="tg()" aria-label="Menu">☰</button></header>
 <nav class="nav"><button class="cl" onclick="tg()" aria-label="Fermer">✕</button>
-<a href="index.html">Accueil</a><a href="store.html" onclick="tg()">Collection</a>
+<a href="index.html">Accueil</a><a href="store.html" onclick="tg()">Our Store</a>
 <a href="https://wa.me/212607572082" target="_blank">WhatsApp</a>
 <a href="https://www.instagram.com/y4srv.v/" target="_blank">Instagram</a>
 <a href="https://www.tiktok.com/@y4srv.v" target="_blank">TikTok</a></nav>
-<h1>Collection</h1>
+<h1>Our Store</h1>
 <p class="sub">Outfits complets, choisissez votre taille et votre couleur.</p>
 <div class="trust"><span>Paiement à la livraison</span><span>Livraison partout au Maroc</span><span>100% original</span></div>
+<div class="chips" id="chips"></div>
 <div id="list" class="grid"><p class="msg">Chargement...</p></div>
 <footer>
 <a href="https://www.instagram.com/y4srv.v/" target="_blank">Instagram</a><a href="https://www.tiktok.com/@y4srv.v" target="_blank">TikTok</a><a href="tel:+212607572082">Appeler</a><a href="mailto:yasserkharbouchkh@gmail.com">Email</a>
@@ -90,18 +94,24 @@ const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const tot=o=>(o.items||[]).reduce((a,t)=>a+(+t.price||0),0);
 const tg=()=>document.body.classList.toggle('menu');
-let outfits=[],cur=null;
+let outfits=[],cur=null,cat='';
 
 async function load(){
   const {data,error}=await sb.from('outfits').select('*').order('position').order('id');
   if(error){$('#list').innerHTML='<p class="msg">Erreur de chargement. Réessayez.</p>';return}
   outfits=data;
   if(!data.length){$('#list').innerHTML='<p class="msg">Nouveaux articles bientôt.</p>';return}
-  $('#list').innerHTML=data.map((o,i)=>`<div class="card" onclick="openM(${i})">
+  draw();
+}
+function draw(){
+  const cats=[...new Set(outfits.map(o=>o.category).filter(Boolean))];
+  $('#chips').innerHTML=cats.length?['',...cats].map(c=>`<button class="chip ${c===cat?'on':''}" data-c="${esc(c)}" onclick="setCat(this.dataset.c)">${c?esc(c):'Tout'}</button>`).join(''):'';
+  $('#list').innerHTML=outfits.map((o,i)=>[o,i]).filter(([o])=>!cat||o.category===cat).map(([o,i])=>`<div class="card" onclick="openM(${i})">
     ${o.in_stock?'':'<span class="tag">Rupture</span>'}
     <div class="im"><img src="${esc((o.images||[])[0])}" alt="${esc(o.title)}" loading="lazy"></div>
     <p>${(o.items||[]).map(t=>esc(t.name)).join(', ')}</p><div class="pr">${tot(o)} dh</div></div>`).join('');
 }
+function setCat(c){cat=c;draw()}
 
 function openM(i){
   cur=outfits[i];
